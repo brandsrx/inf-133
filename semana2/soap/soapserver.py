@@ -4,7 +4,7 @@ from pysimplesoap.server import SoapDispatcher, SOAPHandler
 def saludar(nombre):
     return "¡Hola, {}!".format(nombre)
 def SumaDosNumeros(x,y):
-    return x+y
+    return x+y 
 def CadenaPalindromo(cadena):
     cadena = cadena.replace(" ","").lower()
     return cadena==cadena[::-1]
