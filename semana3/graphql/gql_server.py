@@ -12,10 +12,15 @@ class Estudiante(ObjectType):
 
 class Query(ObjectType):
     estudiantes = List(Estudiante)
-
+    estudiantes_por_carrera= Field(Estudiante,carrera=String())
     def resolve_estudiantes(root, info):
         return estudiantes
-
+    def resolve_estudiantes_por_carrera(root,info,carrera):
+        p = []
+        for estudiante in estudiantes:
+            if estudiante.carrera == carrera:
+                p.append(estudiante)
+        return p[1]
 estudiantes = [
     Estudiante(
         id=1, 
@@ -27,6 +32,18 @@ estudiantes = [
         id=2,
         nombre="Jose",
         apellido="Lopez",
+        carrera="Arquitectura"
+    ),
+    Estudiante(
+        id=3, 
+        nombre="Brandon",
+        apellido="Mamani", 
+        carrera="Ingeniería de Sistemas"
+    ),
+    Estudiante(
+        id=4,
+        nombre="Danner",
+        apellido="Cruz",
         carrera="Arquitectura"
     ),
 ]
@@ -52,7 +69,7 @@ class GraphQLRequestHandler(BaseHTTPRequestHandler):
             self.response_handler(404, {"Error": "Ruta no existente"})
 
 
-def run_server(port=8000):
+def run_server(port=3000):
     try:
         server_address = ("", port)
         httpd = HTTPServer(server_address, GraphQLRequestHandler)
